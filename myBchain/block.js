@@ -14,8 +14,8 @@ class Block {
 		//printing hash value partially
 		return `block -
 			timestamp = ${this.timestamp}
-			hash      = ${this.hash.substring(0,7)}
 			lasthash  = ${this.lasthash.substring(0,7)}
+			hash      = ${this.hash.substring(0,7)}
 			data	  = ${this.data}
 			`;
 	}
@@ -32,13 +32,20 @@ class Block {
 	{
 		const timestamp=Date.now();
 		const lasthash=lastBlock.hash;
-		const hash=Block.Hash(timestamp,lasthash,data);
+		const hash=Block.hash(timestamp,lasthash,data);
 
 		return new this(timestamp,lasthash,hash,data);
 	}
-	static Hash(timestamp,lasthash,data)
+	static hash(timestamp,lasthash,data)
 	{
       return SHA256(`${timestamp}${lasthash}${data}`).toString();
 	}
+	//caluc hash from the block
+	static blockHash(block)
+	{
+		const { timestamp ,lasthash ,data} =block;
+		return Block.hash(timestamp,lasthash,data);
+	}
 }
+
 module.exports = Block;
